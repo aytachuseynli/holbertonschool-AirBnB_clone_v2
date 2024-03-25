@@ -10,6 +10,8 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+from datetime import datetime
+from uuid import uuid4
 
 
 class HBNBCommand(cmd.Cmd):
@@ -123,9 +125,15 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         class_name = args[0]
-        kwargs = {}
-        for i in range(1, len(args)):
-            key, value = tuple(args[i].split("="))
+        kwargs = {"updated_at": str(datetime.now().isoformat()),
+                  "created_at": str(datetime.now().isoformat()),
+                  "__class__": class_name,
+                  "id": str(uuid4())}
+        for i in args[1:]:
+            parts = i.split("=")
+            if len(parts) != 2:
+                continue
+            key, value = parts
             if type(value) is str:
                 value = value.replace("_", " ")
             elif "." in value:
@@ -138,7 +146,7 @@ class HBNBCommand(cmd.Cmd):
                     value = int(value)
                 except ValueError:
                     continue
-        kwargs[key] = value
+            kwargs[key] = value
 
 
         new_instance = HBNBCommand.classes[class_name](**kwargs)
