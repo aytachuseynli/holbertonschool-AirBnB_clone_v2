@@ -9,17 +9,14 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """
-        Returns the list of objects of one type of class.
-        If cls is None, returns all objects.
-        """
+        """Returns the dict objects"""
         if cls is not None:
             new_dict = {}
-            for key, value in self.__objects.items():
+            for key, value in FileStorage.__objects.items():
                 if type(value) is cls:
                     new_dict[key] = value
             return new_dict
-        return self.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -58,8 +55,8 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """Deletes obj from __objects if it exists"""
+        """Delete obj from __objects"""
         if obj is not None:
             key = obj.__class__.__name__ + '.' + obj.id
-            if key in  self.__objects:
-                del self.__objects[key]
+            if key in FileStorage.__objects:
+                del FileStorage.__objects[key]
