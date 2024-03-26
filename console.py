@@ -10,8 +10,6 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-from datetime import datetime
-from uuid import uuid4
 
 
 class HBNBCommand(cmd.Cmd):
@@ -137,15 +135,13 @@ class HBNBCommand(cmd.Cmd):
                 try:
                     value = float(value)
                 except ValueError:
-                    continue
+                    pass
             else:
                 try:
                     value = int(value)
                 except ValueError:
-                    continue
-
+                    pass
             kwargs[key] = value
-
 
         new_instance = HBNBCommand.classes[class_name](**kwargs)
         new_instance.save()
