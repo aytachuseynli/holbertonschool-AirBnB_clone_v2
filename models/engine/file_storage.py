@@ -16,7 +16,8 @@ class FileStorage:
                 if type(value) is cls:
                     new_dict[key] = value
             return new_dict
-        return FileStorage.__objects
+        else:
+            return FileStorage.__objects
 
     def delete(self, obj=None):
         """Delete obj from __objects"""
