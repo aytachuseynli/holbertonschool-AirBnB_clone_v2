@@ -19,11 +19,11 @@ class FileStorage:
         return FileStorage.__objects
     def delete(self, obj=None):
         """Delete obj from __objects"""
-        if obj is not None:
+        try:
             key = obj.__class__.__name__ + '.' + obj.id
-            if key in self.all():
-                del self.all()[key]
-            self.save()
+            del FileStorage.__objects[key]
+        except Exception:
+            pass
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
