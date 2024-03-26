@@ -23,15 +23,15 @@ class FileStorage:
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
-        key = obj.__class__.__name__ + '.' + obj.id
-        self.__objects[key] = obj
-
+        self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
     def save(self):
         """Saves storage dictionary to file"""
-        with open(self.__file_path, 'w') as f:
-            serialized_objects = {key: obj.to_dict()
-                                  for key, obj in self.__objects.items()}
-            json.dump(serialized_objects, f)
+        with open(FileStorage.__file_path, 'w') as f:
+            temp = {}
+            temp.update(FileStorage.__objects)
+            for key, val in temp.items():
+                temp[key] = val.to_dict()
+            json.dump(temp, f)
 
     def reload(self):
         """Loads storage dictionary from file"""
@@ -44,17 +44,16 @@ class FileStorage:
         from models.review import Review
 
         classes = {
-            'BaseModel': BaseModel, 'User': User, 'Place': Place,
-            'State': State, 'City': City, 'Amenity': Amenity,
-            'Review': Review
-        }
+                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
+                    'State': State, 'City': City, 'Amenity': Amenity,
+                    'Review': Review
+                  }
         try:
-            with open(self.__file_path, 'r') as f:
-                serialized_objects = json.load(f)
-                for key, value in serialized_objects.items():
-                    class_name, obj_id = key.split('.')
-                    obj_class = classes[value['__class__']]
-                    self.__objects[key] = obj_class(**value)
+            temp = {}
+            with open(FileStorage.__file_path, 'r') as f:
+                temp = json.load(f)
+                for key, val in temp.items():
+                    self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
 
