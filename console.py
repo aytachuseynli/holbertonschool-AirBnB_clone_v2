@@ -125,10 +125,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         class_name = args[0]
-        kwargs = {"updated_at": str(datetime.now().isoformat()),
-                  "created_at": str(datetime.now().isoformat()),
-                  "__class__": class_name,
-                  "id": str(uuid4())}
+        kwargs = {}
         for i in args[1:]:
             parts = i.split("=")
             if len(parts) != 2:
@@ -150,7 +147,6 @@ class HBNBCommand(cmd.Cmd):
 
 
         new_instance = HBNBCommand.classes[class_name](**kwargs)
-        storage.new(new_instance)
         new_instance.save()
         print(new_instance.id)
 
