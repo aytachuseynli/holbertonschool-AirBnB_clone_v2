@@ -17,6 +17,13 @@ class FileStorage:
                     new_dict[key] = value
             return new_dict
         return FileStorage.__objects
+    def delete(self, obj=None):
+        """Delete obj from __objects"""
+        if obj is not None:
+            key = obj.__class__.__name__ + '.' + obj.id
+            if key in self.all():
+                del self.all()[key]
+            self.save()
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -53,10 +60,3 @@ class FileStorage:
                     self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
-
-    def delete(self, obj=None):
-        """Delete obj from __objects"""
-        if obj is not None:
-            key = obj.__class__.__name__ + '.' + obj.id
-            if key in FileStorage.__objects:
-                del FileStorage.__objects[key]
