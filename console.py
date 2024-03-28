@@ -126,12 +126,14 @@ class HBNBCommand(cmd.Cmd):
         kwargs = {}
 
         for i in args[1:]:
-            key = i.split("=")[0]
-            value = eval(i.split("=")[1])
+            parts = i.split("=")
+            if len(parts) != 2:
+                continue
+            key, value = parts
 
-            if type(value) is str:
-                value = value.replace("_", " ")
-            
+        if type(value) is str:
+            value = value.replace("_", " ")
+
             if "." in value:
                 try:
                     value = float(value)
