@@ -125,15 +125,16 @@ class HBNBCommand(cmd.Cmd):
         class_name = args[0]
         kwargs = {}
         
-        if len(args) > 1 :
+        if len(args) > 1:
             for i in args[1:]:
                 parts = i.split("=")
                 if len(parts) != 2:
                     continue
                 key, value = parts
 
-            if type(value) is str:
-                value = value.replace("_", " ")
+            if value.startswith('"') and value.endswith('"'):
+                value = value[1:-1]
+                value = value.replace("_", " ").replace('"', '\\"')
 
                 if "." in value:
                     try:
