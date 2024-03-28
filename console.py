@@ -132,9 +132,9 @@ class HBNBCommand(cmd.Cmd):
                     continue
                 key, value = parts
 
-            if value.startswith('"') and value.endswith('"'):
-                value = value[1:-1]
-                value = value.replace("_", " ").replace('"', '\\"')
+                if value.startswith('"') and value.endswith('"'):
+                    value = value[1:-1]
+                    value = value.replace("_", " ").replace('"', '\\"')
 
                 if "." in value:
                     try:
@@ -148,7 +148,6 @@ class HBNBCommand(cmd.Cmd):
                         pass
 
                 kwargs[key] = value
-
         new_instance = HBNBCommand.classes[class_name](**kwargs)
         storage.new(new_instance)
         storage.save()
