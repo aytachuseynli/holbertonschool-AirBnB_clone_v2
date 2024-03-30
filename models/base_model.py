@@ -18,8 +18,8 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """Instantiates a new model"""
         self.id = str(uuid.uuid4())
-        self.created_at = datetime.utcnow()
-        self.updated_at = datetime.utcnow()
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
         
         if kwargs:
             for key, value in kwargs.items():
@@ -37,7 +37,7 @@ class BaseModel:
     def save(self):
         """Updates updated_at with current time when instance is changed"""
         from models import storage
-        self.updated_at = datetime.utcnow()
+        self.updated_at = datetime.now()
         storage.new(self)
         storage.save()
 
@@ -45,14 +45,12 @@ class BaseModel:
         """Convert instance into dict format"""
         dictionary = {}
         dictionary.update(self.__dict__)
-        try:
-            del dictionary['_sa_instance_state']
-        except Exception:
-            pass
         dictionary.update({'__class__':
                                (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
+        if '_sa_instance_state' in dictionary:
+            del dictionary['_sa_instance_state']
         return dictionary
 
     def delete(self):
