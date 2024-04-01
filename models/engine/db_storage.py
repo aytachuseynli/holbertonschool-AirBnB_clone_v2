@@ -10,14 +10,11 @@ import os
 import sys
 
 
-Base = declarative_base()
-
-
 class DBStorage:
     """This class manages storage of hbnb models using SQLAlchemy"""
     __engine = None
     __session = None
-    all_classes = ["State", "City", "User", "Place", ]
+    all_classes = ["State", "City", "User", "Place", "Review", "Amenity"]
     def __init__(self):
         """Instantiates a new DBStorage object"""
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
@@ -32,18 +29,19 @@ class DBStorage:
     def all(self, cls=None):
         """Returns a dictionary of objects of a given class"""
         objs = {}
-        if cls:
-            objects = self.__session.query(cls).all()
-            for obj in objects:
-                key = "{}.{}".format(obj.__class__.__name__, obj.id)
-                objs[key] = obj
-        else:
+        if cls is None:
             for class_name in self.all_classes:
                 class_name = eval(class_name)
                 objects = self.__session.query(class_name).all()
                 for obj in objects:
                     key = "{}.{}".format(obj.__class__.__name__, obj.id)
                     objs[key] = obj
+            return objs
+        else:
+            objects = self.__session.query(cls).all()
+            for obj in objects:
+                key = "{}.{}".format(cls.__name__, obj.id)
+                objs[key] = obj
         return objs
 
     def new(self, obj):
@@ -65,8 +63,4 @@ class DBStorage:
         session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session)
         self.__session = Session()
-        
-    def close(self):
-        """Close session"""
-        self.reload()
-        self.__session.close()
+
