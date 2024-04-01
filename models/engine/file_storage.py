@@ -20,7 +20,7 @@ class FileStorage:
             new_dict = {}
             for key, value in FileStorage.__objects.items():
                 if type(value) is cls:
-                    new_dict[key] = value
+                    new_dict[key] = value.to_dict()
             return new_dict
         else:
             return FileStorage.__objects

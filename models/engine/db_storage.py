@@ -17,7 +17,7 @@ class DBStorage:
     """This class manages storage of hbnb models using SQLAlchemy"""
     __engine = None
     __session = None
-    all_classes = ["State", "City"]
+    all_classes = ["State", "City", "User", "Place", ]
     def __init__(self):
         """Instantiates a new DBStorage object"""
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
@@ -61,7 +61,6 @@ class DBStorage:
 
     def reload(self):
         """Creates all tables in the database and creates the current database session"""
-        from models import base_model
         Base.metadata.create_all(self.__engine)
         session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session)
