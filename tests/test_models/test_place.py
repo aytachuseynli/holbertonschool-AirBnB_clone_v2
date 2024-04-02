@@ -12,17 +12,17 @@ class test_Place(test_basemodel):
         super().__init__(*args, **kwargs)
         self.name = "Place"
         self.value = Place
-        self.place1 = Place(city_id = "4b457e66-c7c8-4f63-910f-fd91c3b7140b"
-                            user_id = "4f3f4b42-a4c3-4c20-a492-efff10d00c0b"
-                            name = "Amenity"
-                            description = "Lovely place"
-                            number_rooms = 4
-                            number_bathrooms = 2
-                            max_guest = 4
-                            price_by_night = 120
-                            latitude = 97.774
-                            longitude = -122.431
-                            amenity_ids = [])
+        self.place1 = Place(city_id="d80e0344-63eb-434a-b1e0-07783522124e",
+                            user_id="d81e0344-63eb-434a-b1e0-07783522124e",
+                            name="Arzu",
+                            description="Amazing place puahh",
+                            number_rooms=6,
+                            number_bathrooms=7,
+                            max_guest=17,
+                            price_by_night=170,
+                            latitude=12.4,
+                            longtitude=14.12,
+                            amenity_ids=[])
 
     def test_city_id(self):
         """ """
