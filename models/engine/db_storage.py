@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.ext.declarative import declarative_base
 from models.city import City
 from models.state import State
+from models.user import User
 from models.base_model import Base
 import os
 import sys
