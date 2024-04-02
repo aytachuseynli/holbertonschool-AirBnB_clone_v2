@@ -6,6 +6,7 @@ from sqlalchemy.orm import relationship
 from os import getenv
 from models.review import Review
 
+
 class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = 'places'
@@ -28,7 +29,8 @@ class Place(BaseModel, Base):
                           Column('amenity_id', String(60),
                                  ForeignKey('amenities.id'),
                                  primary_key=True, nullable=False))
-    amenities = relationship('Amenity', secondary='place_amenity', viewonly=False)
+    amenities = relationship('Amenity', secondary='place_amenity',
+                             viewonly=False)
     if getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
         def reviews(self):
@@ -40,7 +42,7 @@ class Place(BaseModel, Base):
                 if rev.place_id == self.id:
                     result.append(rev)
             return result
-        
+
         @property
         def amenities(self):
             """getter Function"""

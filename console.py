@@ -124,7 +124,7 @@ class HBNBCommand(cmd.Cmd):
         args = args.split()
         class_name = args[0]
         kwargs = {}
-        
+
         if len(args) > 1:
             for i in args[1:]:
                 parts = i.split("=")
@@ -347,6 +347,6 @@ class HBNBCommand(cmd.Cmd):
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
 
+
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
-

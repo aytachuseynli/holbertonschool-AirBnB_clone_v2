@@ -19,6 +19,7 @@ class DBStorage:
     __engine = None
     __session = None
     all_classes = ["State", "City", "User", "Place", "Review", "Amenity"]
+
     def __init__(self):
         """Instantiates a new DBStorage object"""
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
@@ -62,9 +63,9 @@ class DBStorage:
             self.__session.delete(obj)
 
     def reload(self):
-        """Creates all tables in the database and creates the current database session"""
+        """Creates all tables in the database
+           and creates the current database session"""
         Base.metadata.create_all(self.__engine)
         session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session)
         self.__session = Session()
-
