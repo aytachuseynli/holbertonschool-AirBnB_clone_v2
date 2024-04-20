@@ -36,8 +36,8 @@ class DBStorage:
         objs = {}
         if cls is None:
             for class_name in self.all_classes:
-                class_name = eval(class_name)
-                objects = self.__session.query(class_name).all()
+                class_obj = eval(class_name)
+                objects = self.__session.query(class_obj).all()
                 for obj in objects:
                     key = "{}.{}".format(obj.__class__.__name__, obj.id)
                     objs[key] = obj
@@ -69,3 +69,7 @@ class DBStorage:
         session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session)
         self.__session = Session()
+
+    def close(self):
+        """close function (opsionel)"""
+        self.__session.close()
