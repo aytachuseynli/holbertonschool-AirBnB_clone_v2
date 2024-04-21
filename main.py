@@ -2,42 +2,48 @@
 """
 Test cities access from a state when using FileStorage
 """
-from models import storage
+from models.user import User
+from models.place import Place
 from models.state import State
 from models.city import City
+from models.amenity import Amenity
+from models.review import Review
+from models import storage
+# creation of a State
+state = State(name="California")
+state.save()
 
-"""
-Objects creations
-"""
-state_1 = State(name="California")
-print("New state: {}".format(state_1))
-state_1.save()
-state_2 = State(name="Arizona")
-print("New state: {}".format(state_2))
-state_2.save()
+# creation of a City
+city = City(state_id=state.id, name="San Francisco")
+city.save()
 
-city_1_1 = City(state_id=state_1.id, name="Napa")
-print("New city: {} in the state: {}".format(city_1_1, state_1))
-city_1_1.save()
-city_1_2 = City(state_id=state_1.id, name="Sonoma")
-print("New city: {} in the state: {}".format(city_1_2, state_1))
-city_1_2.save()
-city_2_1 = City(state_id=state_2.id, name="Page")
-print("New city: {} in the state: {}".format(city_2_1, state_2))
-city_2_1.save()
+# creation of a User
+user = User(email="john@snow.com", password="johnpwd")
+user.save()
 
+# creation of 2 Places
+place_1 = Place(user_id=user.id, city_id=city.id, name="House 1")
+place_1.save()
+place_2 = Place(user_id=user.id, city_id=city.id, name="House 2")
+place_2.save()
 
-"""
-Verification
-"""
-print("")
-all_states = storage.all(State)
-for state_id, state in all_states.items():
-    for city in state.cities():
-        print("Find the city {} in the state {}".format(city, state))
+# creation of 3 various Amenity
+amenity_1 = Amenity(name="Wifi")
+amenity_1.save()
+amenity_2 = Amenity(name="Cable")
+amenity_2.save()
+amenity_3 = Amenity(name="Oven")
+amenity_3.save()
 
-# Verification
-if len(all_states) == 2:
-    print("OK")
-else:
-    print("Failed")
+# link place_1 with 2 amenities
+place_1.amenities.append(amenity_1)
+place_1.amenities.append(amenity_2)
+
+# link place_2 with 3 amenities
+place_2.amenities.append(amenity_1)
+place_2.amenities.append(amenity_2)
+place_2.amenities.append(amenity_3)
+
+storage.save()
+
+print("OK")
