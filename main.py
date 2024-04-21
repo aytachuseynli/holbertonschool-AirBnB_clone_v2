@@ -1,14 +1,13 @@
 #!/usr/bin/python3
 """
-Test cities access from a state
+ Test cities access from a state
 """
 from models import storage
 from models.state import State
 from models.city import City
-import os
 
 """
-Objects creations
+ Objects creations
 """
 state_1 = State(name="California")
 print("New state: {}".format(state_1))
@@ -27,8 +26,9 @@ city_2_1 = City(state_id=state_2.id, name="Page")
 print("New city: {} in the state: {}".format(city_2_1, state_2))
 city_2_1.save()
 
+
 """
-Verification
+ Verification
 """
 print("")
 all_states = storage.all(State)
