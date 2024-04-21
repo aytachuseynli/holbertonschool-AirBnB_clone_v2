@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """This module defines the DBStorage class for managing SQLAlchemy storage"""
+from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.ext.declarative import declarative_base
@@ -9,8 +10,7 @@ from models.state import State
 from models.user import User
 from models.place import Place
 from models.review import Review
-from models.base_model import Base
-import os
+from models.base_model import BaseModel, Base
 import sys
 
 

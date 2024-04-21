@@ -10,11 +10,13 @@ from models import storage
 
 class State(BaseModel, Base):
     """This class represents a state"""
+
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
     cities = relationship("City", backref="state", cascade="all, delete")
 
     if getenv('HBNB_TYPE_STORAGE') != 'db':
+
         @property
         def cities(self):
             """Returns the list of City instances"""
