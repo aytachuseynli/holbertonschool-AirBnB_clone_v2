@@ -3,8 +3,9 @@
 State module
 """
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, ForeignKey
+from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from models.city import City
 from os import getenv
 
 
@@ -22,7 +23,7 @@ class State(BaseModel, Base):
             equals to the current State.id"""
             from models import storage
             cities_list = []
-            for city in list(storage.all("City").values()):
+            for city in list(storage.all(City).values()):
                 if city.state_id == self.id:
                     cities_list.append(city)
             return cities_list
